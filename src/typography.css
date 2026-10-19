@@ -1,0 +1,27 @@
+/* Unmodified official HarmonyOS Sans SC fonts. See assets/fonts/LICENSE.txt. */
+@font-face {
+  font-family: "Weave HarmonyOS Sans";
+  src: url("./assets/fonts/HarmonyOS_Sans_SC_Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Weave HarmonyOS Sans";
+  src: url("./assets/fonts/HarmonyOS_Sans_SC_Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Weave HarmonyOS Sans";
+  src: url("./assets/fonts/HarmonyOS_Sans_SC_Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+:root {
+  --font-ui:
+    "Weave HarmonyOS Sans", "HarmonyOS Sans SC", "HarmonyOS Sans", sans-serif;
+}

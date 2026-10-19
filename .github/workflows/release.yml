@@ -1,0 +1,53 @@
+name: Build and publish Weave
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify tag version
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_NAME -ne "v$version") { throw "Tag $env:GITHUB_REF_NAME does not match package version v$version" }
+      - name: Build and test
+        run: |
+          pnpm typecheck
+          pnpm test:updates
+          pnpm build
+          pnpm test:sites
+      - name: Package Windows and browser editions
+        run: |
+          node scripts/package-desktop.mjs --zip --versioned
+          node scripts/package-browser.mjs --zip --versioned
+      - name: Publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release create $env:GITHUB_REF_NAME `
+            "release/Weave-Windows-v$((Get-Content package.json | ConvertFrom-Json).version).zip" `
+            "release/Weave-Browser-v$((Get-Content package.json | ConvertFrom-Json).version).zip" `
+            --repo $env:GITHUB_REPOSITORY `
+            --title "Weave $env:GITHUB_REF_NAME" `
+            --generate-notes

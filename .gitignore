@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.db
+*.db-shm
+*.db-wal
+release/
+artifacts/
+AGENTS.md
+/docs/*
+!/docs/BROWSER-EDITION.md
+!/docs/EDITING-REFERENCE.md
+WEAVE-内部笔记.md

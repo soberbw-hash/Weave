@@ -1,0 +1,10 @@
+import type { Asset, CanvasDocument, CanvasNode } from "../src/types";
+export function emptyCanvas(): CanvasDocument;
+export function validateCanvas(value: unknown, assets: Asset[]): CanvasDocument;
+export function saveCanvas(current: CanvasDocument | undefined, proposed: unknown, assets: Asset[], revision: number): CanvasDocument;
+export function canvasAsset(node: CanvasNode, assets: Asset[]): Asset | undefined;
+export function canvasAssetIds(doc: CanvasDocument, nodeIds: string[], assets: Asset[]): string[];
+export function assetNode(asset: Asset, x: number, y: number, frameId?: string): CanvasNode;
+export function arrangeNodes(nodes: CanvasNode[], x?: number, y?: number, columnsWidth?: number): CanvasNode[];
+export function moveCanvasItems(doc: CanvasDocument, nodeIds: string[], frameIds: string[], dx: number, dy: number, targetFrame?: string): CanvasDocument;
+export function canvasForExport(doc: CanvasDocument | undefined, assetIds: string[]): CanvasDocument | undefined;

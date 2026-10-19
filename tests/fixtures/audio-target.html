@@ -1,0 +1,5 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><title>文件接收验收</title><style>body{font:16px system-ui;padding:18px}#receiver{padding:45px 25px;border:2px dashed #7052b7;border-radius:10px}pre{white-space:pre-wrap;font-size:12px}</style></head><body><h2>不同来源的文件接收区</h2><div id="receiver">把上面的音频拖到这里</div><pre id="result">尚未收到文件</pre><script type="module">
+const target=document.getElementById('receiver'),result=document.getElementById('result');
+for(const name of ['dragenter','dragover'])target.addEventListener(name,event=>{event.preventDefault();event.dataTransfer.dropEffect='copy';});
+target.addEventListener('drop',async event=>{event.preventDefault();const files=[...event.dataTransfer.files];const details=[];for(const file of files){const digest=await crypto.subtle.digest('SHA-256',await file.arrayBuffer());details.push({name:file.name,type:file.type,size:file.size,sha256:[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('')});}result.textContent=JSON.stringify({origin:location.origin,count:files.length,types:[...event.dataTransfer.types],files:details},null,2);});
+</script></body></html>

@@ -1,0 +1,51 @@
+{
+  "name": "weave",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "dev:desktop": "concurrently -k \"vite --host 127.0.0.1 --port 4173\" \"wait-on http://127.0.0.1:4173 && electron electron/main.cjs\"",
+    "start:desktop": "node scripts/start-desktop.mjs",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "preview": "vite preview",
+    "test:sites": "node --test tests/sites-worker.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:repository": "node --test tests/project-repository.test.cjs",
+    "test:folders": "node --test tests/folder-workspaces.test.mjs",
+    "test:editing": "node --test tests/editing-reference.test.mjs",
+    "test:stacks": "node --test tests/asset-stacks.test.mjs",
+    "test:navigation": "node --test tests/workspace-navigation.test.mjs",
+    "test:display": "node --test tests/library-preferences.test.mjs tests/category-theme.test.mjs",
+    "package:browser": "node scripts/package-browser.mjs",
+    "package:browser:release": "node scripts/package-browser.mjs --zip --versioned",
+    "test:browser-package": "node --test tests/browser-package.test.mjs",
+    "test:notifications": "node --test tests/browser-notifications.test.mjs",
+    "test:library-notices": "node --test tests/library-notices.test.mjs",
+    "test:outbound": "node --test tests/asset-outbound.test.mjs",
+    "test:typography": "node --test tests/typography.test.mjs",
+    "test:updates": "node --test tests/desktop-updates.test.cjs",
+    "package:desktop": "npm run build && node scripts/package-desktop.mjs",
+    "package:desktop:release": "npm run build && node scripts/package-desktop.mjs --zip --versioned"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.7",
+    "@vitejs/plugin-react": "5.0.4",
+    "archiver": "7.0.1",
+    "chokidar": "4.0.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "vite": "6.4.2",
+    "zustand": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "concurrently": "9.1.2",
+    "electron": "44.7.0",
+    "fake-indexeddb": "6.2.4",
+    "typescript": "5.7.3",
+    "wait-on": "8.0.3"
+  }
+}
