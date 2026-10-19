@@ -25,6 +25,8 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download the official Electron runtime
+        run: node node_modules/electron/install.js
       - name: Verify tag version
         shell: pwsh
         run: |
@@ -37,9 +39,12 @@ jobs:
           pnpm build
           pnpm test:sites
       - name: Package Windows and browser editions
+        shell: pwsh
         run: |
           node scripts/package-desktop.mjs --zip --versioned
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node scripts/package-browser.mjs --zip --versioned
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Publish release assets
         env:
           GH_TOKEN: ${{ github.token }}
